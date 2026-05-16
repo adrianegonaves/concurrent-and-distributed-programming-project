@@ -43,5 +43,8 @@ Este projeto consiste num sistema híbrido de reconhecimento de expressões faci
 | **Imaging (Go Library)** | Biblioteca de manipulação rápida de ficheiros de imagem |
 | **Matplotlib/Seaborn** | Visualização de dados e métricas de desempenho |
 
+[Golang com struct, funções e metodos](https://tomelin-tech.medium.com/golang-com-struct-funções-e-metodos-698a25b6221a)
+[](https://gobyexample.com/channels)
+[](https://pkg.go.dev/github.com/disintegration/imaging#section-readme)
 ---
 
