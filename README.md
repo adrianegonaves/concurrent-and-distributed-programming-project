@@ -1,50 +1,55 @@
-# 🎭 Gotion: Hybrid Emotion Recognition System
+# Programação Concorrente e Distribuída
 
-**Trabalho Final | Programação Concorrente e Distribuída**  
-Este projeto consiste num sistema híbrido de reconhecimento de expressões faciais (FER), utilizando **Go** para processamento paralelo massivo de dados e **Python/TensorFlow** para a rede neural convolucional.
+**Trabalho Final**  
+Este programa implementa um pipeline utilizando o padrãoProdutor-Consumidor, suportado pela concorrência nativa do Go (Goroutines e Channels). O objetivo principal é acelerar a preparação do dataset FER-2013 antes do treinamento do modelo de Inteligência Artificial (projeto da UC de Introdução à Inteligência Artificial)
 
 ---
 
 ## 👥 Equipa
 *   **Adriane Gonçalves** - 240000004
 *   **Bruno Hortelão** - 240001083
-
 ---
 ---
 
-## ✅ Checklist de Implementação
+## Checklist de Implementação
 
-### 1. 🏎️ Go Pre-processing Pipeline (Paralelismo Real)
-- [ ] **Worker Pool Pattern:** Implementação de múltiplos operários para processamento simultâneo utilizando todos os núcleos da CPU.
-- [ ] **Image Resizer:** Redimensionamento uniforme para 48x48 pixels utilizando algoritmos de interpolação (ex: Lanczos).
-- [ ] **Grayscale Converter:** Garantia de canal único (1-channel) para consistência da entrada da rede neural.
-- [ ] **Concurrent File Walker:** Leitura eficiente e rápida da estrutura de pastas do dataset FER-2013.
+- [✅]. Go Pipeline 
+- [ ]. Implemntação de Teste
 
-### 2. 🧠 Python Neural Network (Deep Learning)
-- [ ] **Data Pipeline:** Consumo otimizado dos dados processados via `tf.data` com suporte a *prefetch* e *caching*.
-- [ ] **CNN Architecture:** Construção de camadas Convolucionais, Batch Normalization e Dropout para extração de características.
-- [ ] **Model Training:** Implementação de callbacks como *Early Stopping* e *Learning Rate Reduction*.
-- [ ] **Evaluation Metrics:** Geração de Matriz de Confusão e Relatórios de Classificação (Precision, Recall, F1).
+---
+# Instruções de Uso
 
-### 3. 📂 Data Management
-- [ ] **Raw Data Handling:** Gestão e organização do dataset original (bruto).
-- [ ] **Clean Data Export:** Exportação para uma estrutura de diretórios otimizada em `data/processed`.
-- [ ] **Model Serialization:** Guardar o modelo treinado em formato `.h5` ou `.keras` para inferência futura.
+### 1. Preparação do Código
+* Faça o **download** do código para a sua máquina.
+* Crie um arquivo chamado `.gitignore` na raiz do projeto.
+
+### 2. Configuração das Pastas
+* Crie uma pasta chamada `origin` dentro do diretório `pipeline-go`.
+* Coloque as fotos que deseja processar dentro dessa pasta `origin`.
+
+### 3. Execução
+* Rode o projeto utilizando o comando `go run main.go`.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+### Configuração do arquivo `.gitignore`
+Adicione o seguinte conteúdo no seu arquivo `.gitignore` para evitar o envio de arquivos pesados ao GitHub:
 
-| Tecnologia | Função |
-| :--- | :--- |
-| **Go (Golang)** | Processamento Paralelo e Engenharia de Dados (CPU-bound tasks) |
-| **Python** | Treino de Deep Learning e Pesquisa de IA |
-| **TensorFlow/Keras** | Framework principal para a Rede Neural Convolucional |
-| **Imaging (Go Library)** | Biblioteca de manipulação rápida de ficheiros de imagem |
-| **Matplotlib/Seaborn** | Visualização de dados e métricas de desempenho |
+```
+# Ignorar pastas de dados do FER-2013
+origin/
+destination/
+*.keras
+
+```
+---
+
+## Tecnologias Utilizadas e Fontes
 
 [Golang com struct, funções e metodos](https://tomelin-tech.medium.com/golang-com-struct-funções-e-metodos-698a25b6221a)
-[](https://gobyexample.com/channels)
-[](https://pkg.go.dev/github.com/disintegration/imaging#section-readme)
+[Go by Example: Channels](https://gobyexample.com/channels)
+(filepath)[https://pkg.go.dev/path/filepath#example-Base]
+(imaging)[https://pkg.go.dev/github.com/disintegration/imaging#section-readme]
+(Golang: Desmistificando channels - Buffered Channels)[https://dev.to/igormelo/golang-desmistificando-channels-buffered-channels-16d0]
 ---
 

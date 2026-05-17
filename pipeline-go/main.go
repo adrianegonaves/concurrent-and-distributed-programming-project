@@ -86,9 +86,9 @@ func main() {
 
     // funciona como um produtor para enviar o job, essa função ocorre em segundo plano, ou seja, a função main não espera ela terminar para continuar a execução do código. Isso para não trovar a main.
     go  func(){
-        pathToFile("origem", "destino", ch)
+        pathToFile("origin", "destination", ch)
         close(ch)
-    }() // não esquecer de colocar os parenteses para chamar a função anônima, caso contrário ela não será executada.
+    }() // notas sobre a sintaxe: não esquecer de colocar os parenteses para chamar a função anônima, caso contrário ela não será executada.
 
     // fechamos o canal quando os workers terminarem de processar os jobs, para evitar deadlocks
     
