@@ -1,11 +1,11 @@
 # Programação Concorrente e Distribuída
 
 **Trabalho Final**  
-Este programa implementa um pipeline utilizando o padrãoProdutor-Consumidor, suportado pela concorrência nativa do Go (Goroutines e Channels). O objetivo principal é acelerar a preparação do dataset FER-2013 antes do treinamento do modelo de Inteligência Artificial (projeto da UC de Introdução à Inteligência Artificial)
+Este programa implementa um pipeline utilizando o padrão Produtor-Consumidor, suportado pela concorrência nativa do Go (Goroutines e Channels). 
 
 ---
 
-## 👥 Equipa
+##  Equipa
 *   **Adriane Gonçalves** - 240000004
 *   **Bruno Hortelão** - 240001083
 ---
@@ -14,34 +14,38 @@ Este programa implementa um pipeline utilizando o padrãoProdutor-Consumidor, su
 ## Checklist de Implementação
 
 - [✅]. Go Pipeline 
-- [ ]. Implemntação de Teste
+- [ ]. Implemntação de Teste (Benchmark e profiling)
 
 ---
 # Instruções de Uso
 
 ### 1. Preparação do Código
 * Faça o **download** do código para a sua máquina.
-* Crie um arquivo chamado `.gitignore` na raiz do projeto.
+
+### 2. Configuração do Arquivo `.gitignore`
+Antes de rodar os scripts, certifique-se de que possui um arquivo chamado `.gitignore` na raiz do projeto com o seguinte conteúdo para evitar o envio acidental de arquivos pesados ao GitHub:
+
+```gitignore
+# Ignorar pastas de dados geradas localmente
+pipeline-go/data/origin/
+pipeline-go/data/destination/
+
+# Executáveis compilados
+*.exe
+pipeline-go/pipeline-go
+``` 
 
 ### 2. Configuração das Pastas
-* Crie uma pasta chamada `origin` dentro do diretório `pipeline-go`.
-* Coloque as fotos que deseja processar dentro dessa pasta `origin`.
+* Crie uma pasta chamada `origin` dentro do diretório `pipeline-go/data`
+
+Rode o comando abaixo para fazer download das imagens
+```
+python pipeline-go/scripts/script-download.py
+```
 
 ### 3. Execução
-* Rode o projeto utilizando o comando `go run main.go`.
-
+* Rode o projeto utilizando o comando `go run pipeline-go/cmd/pipeline/main.go`.
 ---
-
-### Configuração do arquivo `.gitignore`
-Adicione o seguinte conteúdo no seu arquivo `.gitignore` para evitar o envio de arquivos pesados ao GitHub:
-
-```
-# Ignorar pastas de dados do FER-2013
-origin/
-destination/
-*.keras
-
-```
 ---
 
 ## Tecnologias Utilizadas e Fontes
