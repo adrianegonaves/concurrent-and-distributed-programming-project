@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 
 	"github.com/disintegration/imaging"
@@ -20,10 +21,10 @@ type Job struct {
 // nossa função worker vai receber canal (ch <-chan Job), processa cada Job que o PRODUTOR até que o canal feche.
 func consume(id int, ch <-chan Job) {
     for job := range ch {
-        log.Print("[CONSUMIDOR %d] Iniciando: %s", id, filepath.Base(job.SourcePath))
+        log.Printf("[CONSUMIDOR %d] Iniciando: %s", id, filepath.Base(job.SourcePath))
         // chama a função que processa o Job
         processImage(job)
-        log.Print("[CONSUMIDOR %d] Concluído: %s", id, filepath.Base(job.SourcePath))
+        log.Printf("[CONSUMIDOR %d] Concluído: %s", id, filepath.Base(job.SourcePath))
     }
 }
 
@@ -82,9 +83,9 @@ func main() {
     // Cria um canal unbuffered para comunicação segura entre as Goroutines
     ch := make(chan Job)
     var wg sync.WaitGroup
-
-    // Inicializa um pool de 5 workers concorrentes (Goroutines)
-    for i := 1; i <= 5; i++ {
+    numWorkers := runtime.NumCPU()
+    // Inicializa um pool de 5 workers concorrentes (Goroutines), o numero 5 foi usado para teste. O número de works é pego de forma dinamica núcleos lógicos a CPU possui
+    for i := 1; i <= numWorkers; i++ {
         wg.Add(1)
         go func(id int) {
             defer wg.Done()
@@ -96,9 +97,9 @@ func main() {
 	// Isso evita o Deadlock, pois permite que os workers comecem a consumir 
 	// as imagens enquanto o diretório ainda está sendo varrido.
     go  func(){
-        log.Println("[Produtor] Iniciando a busca por arquivos em 'origin'...")
+        //log.Println("[Produtor] Iniciando a busca por arquivos em 'origin'...")
         produceJobs("data/origin", "data/destination", ch)
-        log.Println("[Produtor] Todos os arquivos foram listados. Fechando canal.")
+        //log.Println("[Produtor] Todos os arquivos foram listados. Fechando canal.")
         close(ch) // Fecha o canal para avisar os workers que a produção acabou.
     }() // Nota de sintaxe: parênteses obrigatórios para invocar a função anônima imediatamente.
 
@@ -107,3 +108,4 @@ func main() {
     wg.Wait()
     log.Println("Processamento concluído com sucesso!")
 }
+

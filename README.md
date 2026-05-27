@@ -52,8 +52,8 @@ python pipeline-go/scripts/script-download.py
 
 [Golang com struct, funções e metodos](https://tomelin-tech.medium.com/golang-com-struct-funções-e-metodos-698a25b6221a)
 [Go by Example: Channels](https://gobyexample.com/channels)
-(filepath)[https://pkg.go.dev/path/filepath#example-Base]
-(imaging)[https://pkg.go.dev/github.com/disintegration/imaging#section-readme]
-(Golang: Desmistificando channels - Buffered Channels)[https://dev.to/igormelo/golang-desmistificando-channels-buffered-channels-16d0]
+[filepath](https://pkg.go.dev/path/filepath#example-Base)
+[imaging](https://pkg.go.dev/github.com/disintegration/imaging#section-readme)
+[Golang: Desmistificando channels - Buffered Channels](https://dev.to/igormelo/golang-desmistificando-channels-buffered-channels-16d0)
 ---
 

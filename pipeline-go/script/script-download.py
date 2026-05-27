@@ -12,7 +12,7 @@ print("Download concluido", path)
 diretorio_do_script = os.path.dirname(os.path.abspath(__file__))
 
 # Força o destino a ser a pasta 'origin' ao lado do arquivo 'teste.py'
-destino_origin = os.path.join(diretorio_do_script, "data/origin")
+destino_origin = os.path.join(diretorio_do_script, "..", "data", "origin")
 os.makedirs(destino_origin, exist_ok=True)
 # =============================================================
 
