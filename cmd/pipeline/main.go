@@ -18,12 +18,12 @@ type Job struct {
 
 // CONSUMIDOR
 // nossa função worker vai receber canal (ch <-chan Job), processa cada Job que o PRODUTOR até que o canal feche.
-func worker(id int, ch <-chan Job) {
+func consume(id int, ch <-chan Job) {
     for job := range ch {
-        log.Print("[Worker %d] Iniciando: %s", id, filepath.Base(job.SourcePath))
+        log.Print("[CONSUMIDOR %d] Iniciando: %s", id, filepath.Base(job.SourcePath))
         // chama a função que processa o Job
         processImage(job)
-        log.Print("[Worker %d] Iniciando: %s", id, filepath.Base(job.SourcePath))
+        log.Print("[CONSUMIDOR %d] Concluído: %s", id, filepath.Base(job.SourcePath))
     }
 }
 
@@ -88,7 +88,7 @@ func main() {
         wg.Add(1)
         go func(id int) {
             defer wg.Done()
-            worker(id, ch)
+            consume(id, ch)
         }(i)
     }
 
