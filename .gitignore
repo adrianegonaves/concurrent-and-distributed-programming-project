@@ -1,5 +1,10 @@
-# Ignorar pastas de dados do FER-2013
-# Ignorar pastas de dados do FER-2013
-origin/
-destination/
-*.keras
+# Ignorar pastas de dados geradas localmente
+pipeline-go/data/origin/
+pipeline-go/data/destination/
+
+# Caso as pastas tenham sido criadas diretamente na raiz de pipeline-go por outros scripts:
+pipeline-go/origin/
+pipeline-go/destination/
+
+*.exe
+pipeline-go/pipeline-go
