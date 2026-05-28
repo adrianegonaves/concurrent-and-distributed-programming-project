@@ -16,7 +16,6 @@ type Job struct {
   SourcePath string `json:"source_path"`
   DestPath string `json:"dest_path"`
 }
-
 // CONSUMIDOR
 // nossa função worker vai receber canal (ch <-chan Job), processa cada Job que o PRODUTOR até que o canal feche.
 func consume(id int, ch <-chan Job) {
@@ -31,17 +30,19 @@ func consume(id int, ch <-chan Job) {
 // PRODUTOR
 // essa função (produceJobs) funciona como o produtor. Ela vai percorrer o diretório "origin" encontrar as imagens e enviar as tarefas (jobs) para o canal
 func produceJobs(sourceDirectory string, targetDirectory string, ch chan<- Job) {
-
+    // começa a percorrer diretório
     err := filepath.Walk(sourceDirectory, func(path string, info os.FileInfo, err error) error {
         if err != nil {
             return err
         }
     
+        // ele igonora a pasta em si e vai direto as imagens.
     if !info.IsDir() {
-        // Calcula o caminho relativo para replicar a estrutura de pastas no destino
-        rel, _ := filepath.Rel(sourceDirectory, path)
-        newDestination := filepath.Join(targetDirectory, rel)
+        // Calcula o caminho relativo para replicar a estrutura de pastas no destino, tbm garante que a estrutura original de subpastas seja clonada no final.
+        rel, _ := filepath.Rel(sourceDirectory, path) // descobre o caminho relativo do arquivo
+        newDestination := filepath.Join(targetDirectory, rel) // Junta o caminho relativo à pasta de destino.
 
+        // depois que descobrir onde as imagens estão e para onde vão motamos a estrutura Job contendo o caminho de origem (SourcePath) e o de destino (DestPath).
         Job := Job{
             SourcePath: path,
             DestPath: newDestination,
@@ -57,6 +58,7 @@ func produceJobs(sourceDirectory string, targetDirectory string, ch chan<- Job) 
         log.Printf("Erro ao percorrer o diretório %s: %v", sourceDirectory, err)
     }
 }
+
 
 // processImage realiza a computação pesada (CPU-bound) para redimensiona e converte para tons de cinza as imagens.
 func processImage(job Job) {
@@ -80,11 +82,11 @@ func processImage(job Job) {
 
 
 func main() {
-    // Cria um canal unbuffered para comunicação segura entre as Goroutines
-    ch := make(chan Job)
+    // Cria um canal com buffered  para comunicação segura entre as Goroutines, com o buffered canal pode fazer 50 envios sem bloquear a goroutine.
+    ch := make(chan Job, 50)
     var wg sync.WaitGroup
     numWorkers := runtime.NumCPU()
-    // Inicializa um pool de 5 workers concorrentes (Goroutines), o numero 5 foi usado para teste. O número de works é pego de forma dinamica núcleos lógicos a CPU possui
+    // O número de workers é pego de forma dinâmica com base em quantos núcleos lógicos a CPU possui.
     for i := 1; i <= numWorkers; i++ {
         wg.Add(1)
         go func(id int) {
@@ -97,9 +99,9 @@ func main() {
 	// Isso evita o Deadlock, pois permite que os workers comecem a consumir 
 	// as imagens enquanto o diretório ainda está sendo varrido.
     go  func(){
-        //log.Println("[Produtor] Iniciando a busca por arquivos em 'origin'...")
-        produceJobs("data/origin", "data/destination", ch)
-        //log.Println("[Produtor] Todos os arquivos foram listados. Fechando canal.")
+        //log.Printf("[Produtor] Iniciando a busca por arquivos em 'origin'...")
+        produceJobs("../../data/origin", "../../data/destination", ch)
+        //log.Printf("[Produtor] Todos os arquivos foram listados. Fechando canal.")
         close(ch) // Fecha o canal para avisar os workers que a produção acabou.
     }() // Nota de sintaxe: parênteses obrigatórios para invocar a função anônima imediatamente.
 
