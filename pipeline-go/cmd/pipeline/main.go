@@ -68,11 +68,12 @@ func processImage(job Job) {
         return 
     }
     // Processamento com algoritmo Lanczos para manter a qualidade
-    resizeImage := imaging.Resize(image, 48, 48, imaging.Lanczos)
+    // resizeImage := imaging.Resize(image, 48, 48, imaging.Lanczos)
+    resizeImage := imaging.Resize(image, 48, 48, imaging.CatmullRom)
     resizeImage = imaging.Grayscale(resizeImage)
 
     // Garante que a pasta de destino exista antes de salvar
-    os.MkdirAll(filepath.Dir(job.DestPath), os.ModePerm)
+    // os.MkdirAll(filepath.Dir(job.DestPath), os.ModePerm)
 
     err = imaging.Save(resizeImage, job.DestPath)
     if err != nil {
@@ -82,6 +83,11 @@ func processImage(job Job) {
 
 
 func main() {
+
+    destDir := "../../data/destination"
+    if err := os.MkdirAll(destDir, os.ModePerm); err != nil {
+		log.Fatalf("Erro ao criar diretório de destino: %v", err)
+	}
     // Cria um canal com buffered  para comunicação segura entre as Goroutines, com o buffered canal pode fazer 50 envios sem bloquear a goroutine.
     ch := make(chan Job, 50)
     var wg sync.WaitGroup
@@ -100,7 +106,7 @@ func main() {
 	// as imagens enquanto o diretório ainda está sendo varrido.
     go  func(){
         //log.Printf("[Produtor] Iniciando a busca por arquivos em 'origin'...")
-        produceJobs("../../data/origin", "../../data/destination", ch)
+        produceJobs(destDir, "../../data/destination", ch)
         //log.Printf("[Produtor] Todos os arquivos foram listados. Fechando canal.")
         close(ch) // Fecha o canal para avisar os workers que a produção acabou.
     }() // Nota de sintaxe: parênteses obrigatórios para invocar a função anônima imediatamente.
