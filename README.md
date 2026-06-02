@@ -13,8 +13,8 @@ Este programa implementa um pipeline utilizando o padrão Produtor-Consumidor, s
 
 ## Checklist de Implementação
 
-- [✅]. Go Pipeline 
-- [ ]. Implemntação de Teste (Benchmark e profiling)
+- [✅]. Go Pipeline
+- [✅]. Implemntação de Teste (Benchmark e profiling)
 
 ---
 # Instruções de Uso
@@ -33,18 +33,38 @@ pipeline-go/data/destination/
 # Executáveis compilados
 *.exe
 pipeline-go/pipeline-go
-``` 
+```
 
 ### 2. Configuração das Pastas
 * Crie uma pasta chamada `origin` dentro do diretório `pipeline-go/data`
 
 Rode o comando abaixo para fazer download das imagens
+
 ```
-python pipeline-go/scripts/script-download.py
+python script-download.py
 ```
 
 ### 3. Execução
-* Rode o projeto utilizando o comando `go run pipeline-go/cmd/pipeline/main.go`.
+* Rode o projeto utilizando o comando:
+
+```
+go run main.go
+```
+
+### 4. Benchmark
+
+Cenário A: Rodar apenas o Teste Rápido (Uma única imagem)
+
+```
+go test -bench=BenchmarkProcessImage -benchmem
+```
+
+Cenário B: Rodar o Teste de Concorrência (Pipeline Completo)
+
+```
+go test -bench=BenchmarkPipelineNWorkers -benchmem -benchtime=1x
+```
+
 ---
 ---
 
@@ -55,5 +75,6 @@ python pipeline-go/scripts/script-download.py
 [filepath](https://pkg.go.dev/path/filepath#example-Base)
 [imaging](https://pkg.go.dev/github.com/disintegration/imaging#section-readme)
 [Golang: Desmistificando channels - Buffered Channels](https://dev.to/igormelo/golang-desmistificando-channels-buffered-channels-16d0)
+[como-fazer-benchmark-do-seu-codigo](https://ttemporin.dev/como-fazer-benchmark-do-seu-codigo/)
 ---
 

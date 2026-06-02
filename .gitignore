@@ -2,9 +2,5 @@
 pipeline-go/data/origin/
 pipeline-go/data/destination/
 
-# Caso as pastas tenham sido criadas diretamente na raiz de pipeline-go por outros scripts:
-pipeline-go/origin/
-pipeline-go/destination/
-
 *.exe
 pipeline-go/pipeline-go
